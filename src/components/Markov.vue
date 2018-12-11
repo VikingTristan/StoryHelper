@@ -14,7 +14,9 @@
                     <v-btn outline @click="generateShakespeare()">Generate a shakespearan</v-btn>
                 </h1>
                 <h3>
-                    "{{shakespeare}}"
+                    <span v-for="(str, i) in shakespeare" :key="i">
+                        {{str}} <br>
+                    </span>
                 </h3>
             </v-flex>
             <v-flex xs12 mt-4>
@@ -32,7 +34,9 @@
                     <v-btn outline @click="generateRap()">Generate a rap</v-btn>
                 </h1>
                 <h3>
-                    "{{rap}}"
+                    <span v-for="(str, i) in rap" :key="i">
+                        {{str}} <br>
+                    </span>
                 </h3>
             </v-flex>
         </v-layout>
@@ -61,25 +65,35 @@
     export default {
         data() {
             return {
-                rap: rapMarkov.start(useUpperCase).end().process(),
-                shakespeare: shakespeareMarkov.start(useUpperCase).end().process(),
                 prompt: promptMarkov.start(useUpperCase).end().process(),
+                rap: [],
+                shakespeare: [],
                 wergeland: []
             }
         },
         mounted() {
             this.generateWergeland();
+            this.generateRap();
+            this.generateShakespeare();
         },
         methods: {
-            generateRap() {
-                this.rap = rapMarkov.start(useUpperCase).end().process();
-            },
-            generateShakespeare() {
-                this.shakespeare = shakespeareMarkov.start(useUpperCase).end().process()
-            },
             generatePrompt() {
                 this.prompt = promptMarkov.start(useUpperCase).end().process()
             },
+            generateRap() {
+                this.rap = [];
+                for (let i = 0; i <= 5; i++) {
+                    let str = rapMarkov.start(useUpperCase).end().process();
+                    this.rap.push(str);
+                }
+            },
+            generateShakespeare() {
+                this.shakespeare = [];
+                for (let i = 0; i <= 5; i++) {
+                    let str = shakespeareMarkov.start(useUpperCase).end().process();
+                    this.shakespeare.push(str);
+                }
+            },            
             generateWergeland() {
                 this.wergeland = [];
                 for (let i = 0; i <= 5; i++) {
